@@ -1,6 +1,4 @@
 import React from "react"
-import { Link } from "gatsby"
-
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
@@ -9,13 +7,18 @@ const IndexPage = () => (
   <Layout>
     <SEO title="Home" />
     <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
+    <p>
+      It is a starter Gatsby project that we'll use to build a real MVP with
+      authentication and a few social features with as little coding as
+      possible.
+    </p>
+    <p>
+      Watch me doing it or take part in this exciting process to learn, how
+      powerful JAMstack is when combined with Fauna serverless database.
+    </p>
     <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
       <Image />
     </div>
-    <Link to="/page-2/">Go to page 2</Link> <br />
-    <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
   </Layout>
 )
 

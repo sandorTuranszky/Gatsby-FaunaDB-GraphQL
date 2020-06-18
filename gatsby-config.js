@@ -4,9 +4,9 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    title: `Gatsby with FaunaDB`,
-    description: `Kick off your next, great Gatsby project with FaunaDB`,
-    author: `@gatsbyjs`,
+    title: `We are building a real MVP with Gatsby, Fauna Database and GraphQL`,
+    description: `Kick off your next, great Gatsby project with Fauna Database and GraphQL`,
+    author: `https://turanszky.com/`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -31,8 +31,5 @@ module.exports = {
         icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
     },
-    // this (optional) plugin enables Progressive Web App + Offline functionality
-    // To learn more, visit: https://gatsby.dev/offline
-    // `gatsby-plugin-offline`,
   ],
 }
