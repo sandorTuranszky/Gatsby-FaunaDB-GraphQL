@@ -4,7 +4,7 @@ require("dotenv").config({
 
 module.exports = {
   siteMetadata: {
-    title: `We are building a real MVP with Gatsby, Fauna Database and GraphQL`,
+    title: `Gatsby, FaunaDB and GraphQL app`,
     description: `Kick off your next, great Gatsby project with Fauna Database and GraphQL`,
     author: `https://turanszky.com/`,
   },
