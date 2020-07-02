@@ -1,7 +1,13 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { Link, navigate } from "gatsby"
-import { getUser, isLoggedIn, logout } from "../services/auth"
+import { Link } from "gatsby"
+import {
+  getUser,
+  isLoggedIn,
+  getPrivateRoute,
+  isDeveloper,
+} from "../services/auth"
+import Logout from "../components/logout"
 
 const Header = ({ siteTitle }) => {
   return (
@@ -50,27 +56,19 @@ const Header = ({ siteTitle }) => {
                   }}
                 >{`Hello ${getUser().email}`}</span>
                 <Link
-                  to="/app/bookmarks"
+                  to={getPrivateRoute()}
                   style={{
                     color: `white`,
                     marginRight: `0.5rem`,
                   }}
                 >
-                  Bookmarks
+                  {isDeveloper() ? (
+                    <span>Bookmarks</span>
+                  ) : (
+                    <span>Courses</span>
+                  )}
                 </Link>
-                <a
-                  href="/"
-                  style={{
-                    color: `white`,
-                    marginRight: `0.5rem`,
-                  }}
-                  onClick={event => {
-                    event.preventDefault()
-                    logout(() => navigate(`/app/login`))
-                  }}
-                >
-                  Logout
-                </a>
+                <Logout />
               </>
             ) : (
               <Link

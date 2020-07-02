@@ -1,35 +1,44 @@
-import React, { useState } from "react"
-import { useMutation } from "@apollo/react-hooks"
+import React from "react"
 import gql from "graphql-tag"
+import { useMutation } from "@apollo/react-hooks"
 import { navigate } from "gatsby"
-import { isLoggedIn, setToken, setUser } from "../services/auth"
+import {
+  isLoggedIn,
+  setToken,
+  setUser,
+  getPrivateRoute,
+} from "../services/auth"
 
 const LOGIN_USER = gql`
   mutation loginUser($email: String!, $password: String!) {
-    loginUser(data: { email: $email, password: $password })
+    loginUser(data: { email: $email, password: $password }) {
+      token
+      user {
+        _id
+        name
+        email
+        role
+      }
+    }
   }
 `
 
 const Login = () => {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
   let emailInput
   let passwordInput
 
-  if (isLoggedIn()) {
-    navigate(`/app/bookmarks`)
-  }
+  // Logged-in users should not see the login page
+  if (isLoggedIn()) navigate(getPrivateRoute())
 
   const [loginUser, { loading, error, data = {} }] = useMutation(LOGIN_USER)
 
   if (data.loginUser) {
-    setToken(data.loginUser)
-    /**
-     * This is purely for simplicity reasons
-     * In the real-life project, the login mutation could return user data along with the token
-     */
-    setUser({ email, password })
-    navigate(`/app/bookmarks`)
+    // Save token in cookies
+    setToken(data.loginUser.token)
+    // Store user details
+    setUser(data.loginUser.user)
+    // Redirect to the default private page
+    navigate(getPrivateRoute())
   }
 
   return (
@@ -49,13 +58,10 @@ const Login = () => {
         onSubmit={event => {
           event.preventDefault()
 
-          setEmail(emailInput.value)
-          setPassword(passwordInput.value)
-
           loginUser({
             variables: {
-              email,
-              password,
+              email: emailInput.value,
+              password: passwordInput.value,
             },
           })
         }}
