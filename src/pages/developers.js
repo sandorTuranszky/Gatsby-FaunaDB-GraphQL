@@ -26,7 +26,7 @@ const GET_USERS_WITH_BOOKMARKS = gql`
   }
 `
 
-const Bookmarks = ({ loading, error, bookmarks }) => {
+export const Bookmarks = ({ loading, error, bookmarks }) => {
   return (
     <>
       {loading && (
@@ -75,18 +75,16 @@ const UsersList = ({ users }) => {
     users = data.allUsers.data
   }
 
-  return users.map(item => {
-    return (
-      <li key={item._id}>
-        <span style={{ fontWeight: `bold` }}>{item.name}</span> ({item.email})
-        <Bookmarks
-          loading={loading}
-          error={error}
-          bookmarks={item.bookmarks ? item.bookmarks.data : []}
-        />
-      </li>
-    )
-  })
+  return users.map(item => (
+    <li key={item._id}>
+      <span style={{ fontWeight: `bold` }}>{item.name}</span> ({item.email})
+      <Bookmarks
+        loading={loading}
+        error={error}
+        bookmarks={item.bookmarks ? item.bookmarks.data : []}
+      />
+    </li>
+  ))
 }
 
 const DevelopersPage = ({ data: { FaunaDB } }) => {

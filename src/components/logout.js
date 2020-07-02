@@ -13,13 +13,14 @@ const LOGOUT_USER = gql`
 const Logout = () => {
   const [logoutUser, { loading, error, data = {} }] = useMutation(LOGOUT_USER)
 
-  // Remove token and user related data
-  if (loading) cleanUp()
-
   if (error) return error
 
   // When there is a response, navigate to the home page
-  if (data.hasOwnProperty("logOut")) navigate("/")
+  if (data.hasOwnProperty("logOutUser")) {
+    // Remove token and user related data
+    cleanUp()
+    navigate("/")
+  }
 
   return (
     <>
