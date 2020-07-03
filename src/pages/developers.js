@@ -1,32 +1,13 @@
 import React from "react"
 import { graphql } from "gatsby"
 import { useQuery } from "@apollo/react-hooks"
-import gql from "graphql-tag"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-
 // The Query is used by Apollo Client.
-const GET_USERS_WITH_BOOKMARKS = gql`
-  {
-    allUsers(role: DEVELOPER) {
-      data {
-        _id
-        name
-        email
-        bookmarks {
-          data {
-            _id
-            title
-            private
-          }
-        }
-      }
-    }
-  }
-`
+import { GET_USERS_WITH_BOOKMARKS } from "../apollo/queries"
 
-export const Bookmarks = ({ loading, error, bookmarks }) => {
+export const Bookmarks = ({ loading, error, bookmarks, author }) => {
   return (
     <>
       {loading && (
@@ -52,7 +33,7 @@ export const Bookmarks = ({ loading, error, bookmarks }) => {
             {bookmarks.map(bookmark => {
               return (
                 <li key={bookmark._id}>
-                  {bookmark.title}
+                  {bookmark.course.title} ({bookmark.course.author.name}){" "}
                   {bookmark.private && (
                     <span style={{ marginLeft: `.5rem`, color: `orange` }}>
                       (Private)
@@ -121,7 +102,7 @@ const DevelopersPage = ({ data: { FaunaDB } }) => {
 
 export default DevelopersPage
 
-// This query fetches data during at time and is part of a static page produced by Gatsby
+// This query fetches data at build time and is part of a static page produced by Gatsby
 export const pageQuery = graphql`
   query {
     FaunaDB {

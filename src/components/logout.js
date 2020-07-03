@@ -11,7 +11,7 @@ const LOGOUT_USER = gql`
 `
 
 const Logout = () => {
-  const [logoutUser, { loading, error, data = {} }] = useMutation(LOGOUT_USER)
+  const [logoutUser, { error, data = {} }] = useMutation(LOGOUT_USER)
 
   if (error) return error
 

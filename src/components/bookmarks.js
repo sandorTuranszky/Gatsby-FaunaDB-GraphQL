@@ -1,24 +1,10 @@
 import React from "react"
 import { useQuery } from "@apollo/react-hooks"
-import gql from "graphql-tag"
 
 import { getUser } from "../services/auth"
 import { Bookmarks as BookmarksList } from "../pages/developers"
-
 // The Query is used by Apollo Client.
-const GET_USER_BY_ID = gql`
-  query findUserByID($id: ID!) {
-    findUserByID(id: $id) {
-      bookmarks {
-        data {
-          _id
-          title
-          private
-        }
-      }
-    }
-  }
-`
+import { GET_USER_BY_ID } from "../apollo/queries"
 
 const Bookmarks = () => {
   let bookmarks = []
