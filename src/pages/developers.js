@@ -4,15 +4,11 @@ import { useQuery } from "@apollo/react-hooks"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { getUser } from "../services/auth"
-import UpdateBookmark from "../components/updateBookmark"
-import DeleteBookmark from "../components/deleteBookmark"
 
 // The Query is used by Apollo Client.
 import { GET_USERS_WITH_BOOKMARKS } from "../apollo/queries"
 
-export const Bookmarks = ({ loading, error, bookmarks, author }) => {
-  const userID = getUser()._id
+export const Bookmarks = ({ loading, error, bookmarks }) => {
   return (
     <>
       {loading && (
@@ -42,15 +38,6 @@ export const Bookmarks = ({ loading, error, bookmarks, author }) => {
                       (Private)
                     </span>
                   )}
-                  <UpdateBookmark
-                    bookmarkID={bookmark._id}
-                    userID={userID}
-                    courseID={bookmark.course._id}
-                    text={bookmark.private ? "Make public" : "Make private"}
-                    privateBookmark={!bookmark.private}
-                  />
-                  {"   "}
-                  <DeleteBookmark bookmarkID={bookmark._id} />
                 </li>
               )
             })}
@@ -91,23 +78,6 @@ const DevelopersPage = ({ data: { FaunaDB } }) => {
           <UsersList users={users} />
         </ul>
       )}
-
-      <div
-        style={{
-          padding: `1rem`,
-          marginTop: `1rem`,
-          border: `1px solid gray`,
-        }}
-      >
-        <p>This page contains a mix of static and dynamic data.</p>
-        <ul>
-          <li>
-            The list of users is loaded at build time when Gatsby generates
-            static pages
-          </li>
-          <li>Bookmarks are loaded dynamically</li>
-        </ul>
-      </div>
     </Layout>
   )
 }

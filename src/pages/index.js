@@ -5,13 +5,28 @@ import { useQuery } from "@apollo/react-hooks"
 import { getUser } from "../services/auth"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import { isLoggedIn } from "../services/auth"
 import BookmarkManager from "../components/bookmarkManager"
 
 // The Query is used by Apollo Client.
 import { GET_COURSES_WITH_BOOKMARKS } from "../apollo/queries"
 
-const IndexPage = ({ data: { FaunaDB } }) => {
-  let courses = FaunaDB.allCourses.data
+const CoursesList = ({ courses }) => {
+  return (
+    <ul>
+      {courses &&
+        courses.map(item => {
+          return (
+            <li key={item._id}>
+              {item.title} ({item.author.name}){" "}
+            </li>
+          )
+        })}
+    </ul>
+  )
+}
+
+const CoursesListWithBookmarks = ({ courses }) => {
   const { loading, error, data = {} } = useQuery(GET_COURSES_WITH_BOOKMARKS, {
     variables: { id: getUser()._id },
   })
@@ -21,8 +36,7 @@ const IndexPage = ({ data: { FaunaDB } }) => {
   }
 
   return (
-    <Layout>
-      <SEO title="Home" />
+    <>
       {error && (
         <div style={{ marginLeft: `1rem`, color: `gray` }}>{error.message}</div>
       )}
@@ -47,6 +61,21 @@ const IndexPage = ({ data: { FaunaDB } }) => {
             )
           })}
       </ul>
+    </>
+  )
+}
+
+const IndexPage = ({ data: { FaunaDB } }) => {
+  let courses = FaunaDB.allCourses.data
+
+  return (
+    <Layout>
+      <SEO title="Home" />
+      {isLoggedIn() ? (
+        <CoursesListWithBookmarks courses={courses} />
+      ) : (
+        <CoursesList courses={courses} />
+      )}
     </Layout>
   )
 }

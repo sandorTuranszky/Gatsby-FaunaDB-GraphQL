@@ -11,7 +11,7 @@ const LOGOUT_USER = gql`
 `
 
 const Logout = () => {
-  const [logoutUser, { error, data = {} }] = useMutation(LOGOUT_USER)
+  const [logoutUser, { client, error, data = {} }] = useMutation(LOGOUT_USER)
 
   if (error) return error
 
@@ -19,6 +19,8 @@ const Logout = () => {
   if (data.hasOwnProperty("logoutUser")) {
     // Remove token and user related data
     cleanUp()
+    // Clear Apollo cache
+    client.clearStore()
     navigate("/")
   }
 
