@@ -4,10 +4,15 @@ import { useQuery } from "@apollo/react-hooks"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import { getUser } from "../services/auth"
+import UpdateBookmark from "../components/updateBookmark"
+import DeleteBookmark from "../components/deleteBookmark"
+
 // The Query is used by Apollo Client.
 import { GET_USERS_WITH_BOOKMARKS } from "../apollo/queries"
 
 export const Bookmarks = ({ loading, error, bookmarks, author }) => {
+  const userID = getUser()._id
   return (
     <>
       {loading && (
@@ -18,13 +23,11 @@ export const Bookmarks = ({ loading, error, bookmarks, author }) => {
         <div style={{ marginLeft: `1rem`, color: `gray` }}>{error.message}</div>
       )}
 
-      {!loading && !bookmarks && (
-        <div style={{ marginLeft: `1rem`, color: `gray` }}>
-          No bookmarks available
-        </div>
+      {!loading && bookmarks.length === 0 && (
+        <div style={{ color: `gray` }}>No bookmarks available</div>
       )}
 
-      {!loading && bookmarks && (
+      {!loading && bookmarks.length > 0 && (
         <>
           <div style={{ margin: `.5rem`, color: `gray`, fontWeight: `bold` }}>
             Bookmarks:
@@ -39,6 +42,15 @@ export const Bookmarks = ({ loading, error, bookmarks, author }) => {
                       (Private)
                     </span>
                   )}
+                  <UpdateBookmark
+                    bookmarkID={bookmark._id}
+                    userID={userID}
+                    courseID={bookmark.course._id}
+                    text={bookmark.private ? "Make public" : "Make private"}
+                    privateBookmark={!bookmark.private}
+                  />
+                  {"   "}
+                  <DeleteBookmark bookmarkID={bookmark._id} />
                 </li>
               )
             })}

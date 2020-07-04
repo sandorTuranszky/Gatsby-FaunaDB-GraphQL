@@ -1,20 +1,19 @@
 import React from "react"
 
 import { getUser } from "../services/auth"
-import BookmarkButton from "../components/bookmarkButton"
+import CreateBookmark from "./createBookmark"
+import DeleteBookmark from "./deleteBookmark"
 
-const BookmarkManager = ({ bookmarks, courseID }) => {
+const BookmarkManager = ({ bookmarks, bookmarkID, courseID }) => {
   const userID = getUser()._id
   const hasBookmarked = bookmarks.find(({ user }) => user._id === userID)
-
+  console.log("hasBookmarked: ", hasBookmarked)
   return (
     <>
       {hasBookmarked ? (
-        <a href="/" style={{ marginLeft: `.5rem`, color: `orange` }}>
-          Remove bookmark
-        </a>
+        <DeleteBookmark bookmarkID={hasBookmarked._id} />
       ) : (
-        <BookmarkButton userID={userID} courseID={courseID} />
+        <CreateBookmark userID={userID} courseID={courseID} />
       )}
     </>
   )

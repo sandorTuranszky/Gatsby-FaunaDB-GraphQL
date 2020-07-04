@@ -3,28 +3,39 @@ import gql from "graphql-tag"
 import { useMutation } from "@apollo/react-hooks"
 
 const CREATE_BOOKMARK = gql`
-  mutation createBookmark($private: Boolean!, $userID: ID!, $courseID: ID!) {
-    createBookmark(
+  mutation updateBookmark(
+    $id: ID!
+    $private: Boolean!
+    $userID: ID!
+    $courseID: ID!
+  ) {
+    updateBookmark(
+      id: $id
       data: {
         private: $private
         user: { connect: $userID }
         course: { connect: $courseID }
       }
     ) {
-      course {
-        title
-      }
+      _id
+      private
     }
   }
 `
 
-const BookmarkButton = ({ userID, courseID, privateBookmark = false }) => {
-  const [createBookmark, { loading, error, data = {} }] = useMutation(
+const UpdateBookmark = ({
+  bookmarkID,
+  userID,
+  courseID,
+  text = "Bookmark",
+  privateBookmark = false,
+}) => {
+  const [updateBookmark, { loading, error, data = {} }] = useMutation(
     CREATE_BOOKMARK
   )
 
-  if (data.createBookmark) {
-    console.log("createBookmark: ", data.createBookmark)
+  if (data.updateBookmark) {
+    console.log("updateBookmark: ", data.updateBookmark)
   }
 
   return (
@@ -41,8 +52,9 @@ const BookmarkButton = ({ userID, courseID, privateBookmark = false }) => {
           onClick={event => {
             event.preventDefault()
 
-            createBookmark({
+            updateBookmark({
               variables: {
+                id: bookmarkID,
                 private: privateBookmark,
                 userID,
                 courseID,
@@ -50,11 +62,11 @@ const BookmarkButton = ({ userID, courseID, privateBookmark = false }) => {
             })
           }}
         >
-          Bookmark
+          {text}
         </a>
       )}
     </>
   )
 }
 
-export default BookmarkButton
+export default UpdateBookmark

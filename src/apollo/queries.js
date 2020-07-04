@@ -8,8 +8,10 @@ export const GET_USER_BY_ID = gql`
           _id
           private
           course {
+            _id
             title
             author {
+              _id
               name
             }
           }
@@ -31,6 +33,7 @@ export const GET_USERS_WITH_BOOKMARKS = gql`
             _id
             private
             course {
+              _id
               title
               author {
                 name
@@ -55,6 +58,7 @@ export const GET_COURSES_WITH_BOOKMARKS = gql`
         }
         bookmarks {
           data {
+            _id
             title
             user {
               _id
