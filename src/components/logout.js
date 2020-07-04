@@ -5,8 +5,8 @@ import { navigate } from "gatsby"
 import { cleanUp } from "../services/auth"
 
 const LOGOUT_USER = gql`
-  mutation logOutUser {
-    logOutUser
+  mutation logoutUser {
+    logoutUser
   }
 `
 
@@ -16,7 +16,7 @@ const Logout = () => {
   if (error) return error
 
   // When there is a response, navigate to the home page
-  if (data.hasOwnProperty("logOutUser")) {
+  if (data.hasOwnProperty("logoutUser")) {
     // Remove token and user related data
     cleanUp()
     navigate("/")

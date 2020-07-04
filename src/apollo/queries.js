@@ -36,6 +36,7 @@ export const GET_USERS_WITH_BOOKMARKS = gql`
               _id
               title
               author {
+                _id
                 name
               }
             }

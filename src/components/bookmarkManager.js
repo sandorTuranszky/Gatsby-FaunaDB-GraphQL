@@ -7,7 +7,7 @@ import DeleteBookmark from "./deleteBookmark"
 const BookmarkManager = ({ bookmarks, bookmarkID, courseID }) => {
   const userID = getUser()._id
   const hasBookmarked = bookmarks.find(({ user }) => user._id === userID)
-  console.log("hasBookmarked: ", hasBookmarked)
+
   return (
     <>
       {hasBookmarked ? (

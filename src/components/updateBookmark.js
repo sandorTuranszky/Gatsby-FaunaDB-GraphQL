@@ -30,13 +30,7 @@ const UpdateBookmark = ({
   text = "Bookmark",
   privateBookmark = false,
 }) => {
-  const [updateBookmark, { loading, error, data = {} }] = useMutation(
-    CREATE_BOOKMARK
-  )
-
-  if (data.updateBookmark) {
-    console.log("updateBookmark: ", data.updateBookmark)
-  }
+  const [updateBookmark, { loading, error }] = useMutation(CREATE_BOOKMARK)
 
   return (
     <>

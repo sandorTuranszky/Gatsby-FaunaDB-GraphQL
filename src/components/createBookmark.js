@@ -2,6 +2,13 @@ import React from "react"
 import gql from "graphql-tag"
 import { useMutation } from "@apollo/react-hooks"
 
+import { getUser } from "../services/auth"
+import {
+  GET_COURSES_WITH_BOOKMARKS,
+  GET_USER_BY_ID,
+  GET_USERS_WITH_BOOKMARKS,
+} from "../apollo/queries"
+
 const CREATE_BOOKMARK = gql`
   mutation createBookmark($private: Boolean!, $userID: ID!, $courseID: ID!) {
     createBookmark(
@@ -12,7 +19,10 @@ const CREATE_BOOKMARK = gql`
       }
     ) {
       _id
-      private
+      title
+      user {
+        _id
+      }
     }
   }
 `
@@ -23,13 +33,41 @@ const CreateBookmark = ({
   text = "Bookmark",
   privateBookmark = false,
 }) => {
-  const [createBookmark, { loading, error, data = {} }] = useMutation(
-    CREATE_BOOKMARK
-  )
+  const [createBookmark, { loading, error, client }] = useMutation(
+    CREATE_BOOKMARK,
+    {
+      update(cache, { data: { createBookmark } }) {
+        // Update cache
+        const cacheData = client.readQuery({
+          query: GET_COURSES_WITH_BOOKMARKS,
+        })
 
-  if (data.createBookmark) {
-    console.log("createBookmark: ", data.createBookmark)
-  }
+        let cacheCopy = JSON.parse(JSON.stringify(cacheData))
+        cacheCopy.allCourses.data = cacheCopy.allCourses.data.map(item => {
+          if (item._id === courseID) {
+            item.bookmarks.data.push(createBookmark)
+          }
+          return item
+        })
+
+        client.writeQuery({
+          query: GET_COURSES_WITH_BOOKMARKS,
+          data: { ...cacheCopy },
+        })
+      },
+      refetchQueries: [
+        {
+          query: GET_USER_BY_ID,
+          variables: {
+            id: getUser()._id,
+          },
+        },
+        {
+          query: GET_USERS_WITH_BOOKMARKS,
+        },
+      ],
+    }
+  )
 
   return (
     <>

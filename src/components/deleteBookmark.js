@@ -3,8 +3,11 @@ import gql from "graphql-tag"
 import { useMutation } from "@apollo/react-hooks"
 
 import { getUser } from "../services/auth"
-import { GET_USER_BY_ID } from "../apollo/queries"
-import { GET_COURSES_WITH_BOOKMARKS } from "../apollo/queries"
+import {
+  GET_USER_BY_ID,
+  GET_USERS_WITH_BOOKMARKS,
+  GET_COURSES_WITH_BOOKMARKS,
+} from "../apollo/queries"
 
 const DELETE_BOOKMARK = gql`
   mutation deleteBookmark($id: ID!) {
@@ -15,27 +18,32 @@ const DELETE_BOOKMARK = gql`
 `
 
 const DeleteBookmark = ({ bookmarkID, text = "Delete bookmark" }) => {
-  const [deleteBookmark, { loading, error }] = useMutation(DELETE_BOOKMARK, {
-    refetchQueries: [
-      {
-        query: GET_USER_BY_ID,
-        variables: {
-          id: getUser()._id,
+  const [deleteBookmark, { loading, error, data }] = useMutation(
+    DELETE_BOOKMARK,
+    {
+      refetchQueries: [
+        {
+          query: GET_USER_BY_ID,
+          variables: {
+            id: getUser()._id,
+          },
         },
-      },
-      {
-        query: GET_COURSES_WITH_BOOKMARKS,
-        variables: { id: getUser()._id },
-      },
-    ],
-  })
+        {
+          query: GET_USERS_WITH_BOOKMARKS,
+        },
+        {
+          query: GET_COURSES_WITH_BOOKMARKS,
+        },
+      ],
+    }
+  )
 
   return (
     <>
       {error && (
         <div style={{ marginLeft: `1rem`, color: `gray` }}>{error.message}</div>
       )}
-      {loading ? (
+      {loading || data ? (
         <span style={{ marginLeft: `1rem`, color: `gray` }}>Loading...</span>
       ) : (
         <a
