@@ -1,25 +1,43 @@
 import React from "react"
+import { graphql } from "gatsby"
+
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>
-      It is a starter Gatsby project that we'll use to build a real MVP with
-      authentication and a few social features with as little coding as
-      possible.
-    </p>
-    <p>
-      Watch me doing it or take part in this exciting process to learn, how
-      powerful JAMstack is when combined with Fauna serverless database.
-    </p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-  </Layout>
-)
+const IndexPage = ({ data: { FaunaDB } }) => {
+  const data = FaunaDB.allCourses.data
+  return (
+    <Layout>
+      <SEO title="Home" />
+      <ul>
+        {data &&
+          data.map(item => {
+            return (
+              <li key={item._id}>
+                {item.title} ({item.author.name})
+              </li>
+            )
+          })}
+      </ul>
+    </Layout>
+  )
+}
 
 export default IndexPage
+
+export const pageQuery = graphql`
+  query {
+    FaunaDB {
+      allCourses(_size: 10) {
+        data {
+          _id
+          title
+          author {
+            _id
+            name
+          }
+        }
+      }
+    }
+  }
+`
