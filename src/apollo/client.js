@@ -8,7 +8,10 @@ export const client = new ApolloClient({
   uri: process.env.GATSBY_GRAPHQL_ENDPOINT,
   cache: new InMemoryCache(),
   request: operation => {
-    const token = getToken() || process.env.FAUNADB_BOOTSTRAP_KEY
+    const token =
+      getToken() ||
+      process.env.GATSBY_FAUNADB_BOOTSTRAP_KEY ||
+      process.env.FAUNADB_BOOTSTRAP_KEY
     operation.setContext({
       headers: {
         authorization: token ? `Bearer ${token}` : "",
