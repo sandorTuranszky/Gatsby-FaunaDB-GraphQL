@@ -49,7 +49,9 @@ export const Bookmarks = ({ loading, error, bookmarks }) => {
 }
 
 const UsersList = ({ users }) => {
-  const { loading, error, data = {} } = useQuery(GET_USERS_WITH_BOOKMARKS)
+  const { loading, error, data = {} } = useQuery(GET_USERS_WITH_BOOKMARKS, {
+    fetchPolicy: "cache-and-network",
+  })
 
   if (data.allUsers && data.allUsers.data) {
     users = data.allUsers.data
