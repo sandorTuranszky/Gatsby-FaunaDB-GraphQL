@@ -17,3 +17,6 @@
   Watch me doing it or take part in this exciting process to learn, how
   powerful JAMstack is when combined with Fauna serverless database.
 </p>
+
+<h2>In this article, we will connect our MVP to the FaunaDB to source data from there at build time, and present is as static pages</h2>
+<p>The GraphQL schema is in <code>schemas/schema-article-1.gql</code></p>

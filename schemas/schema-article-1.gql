@@ -1,0 +1,14 @@
+type Course {
+  title: String!
+  author: Author!
+}
+
+type Author {
+  name: String!
+  courses: [Course] @relation
+}
+
+type Query {
+  allCourses: [Course!]
+  allAuthors: [Author!]
+}
