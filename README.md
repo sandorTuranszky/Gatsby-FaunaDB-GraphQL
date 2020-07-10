@@ -17,3 +17,7 @@
   Watch me doing it or take part in this exciting process to learn, how
   powerful JAMstack is when combined with Fauna serverless database.
 </p>
+<h1>This is the finilized source code for the </code>Article 2: Adding user authentication to your MVP is a breeze with FaunaDB</code></h1>
+
+<p>The ource code for the <code>Article 1: How to launch an MVP with JAMstack, FaunaDB, GraphQL and secure authentication with zero running costs</code> you can find in the <a href="https://github.com/sandorTuranszky/Gatsby-FaunaDB-GraphQL/tree/article-1/source-data-from-FaunaDB">article-1/source-data-from-FaunaDB</a> branch
+</p>
