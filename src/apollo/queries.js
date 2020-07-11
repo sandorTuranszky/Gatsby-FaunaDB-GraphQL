@@ -1,6 +1,6 @@
 import gql from "graphql-tag"
 
-export const GET_USER_BY_ID = gql`
+export const GET_DEVELOPER_BY_ID = gql`
   query findUserByID($id: ID!) {
     findUserByID(id: $id) {
       bookmarks {
@@ -15,6 +15,19 @@ export const GET_USER_BY_ID = gql`
               name
             }
           }
+        }
+      }
+    }
+  }
+`
+
+export const GET_AUTHOR_BY_ID = gql`
+  query findUserByID($id: ID!) {
+    findUserByID(id: $id) {
+      courses {
+        data {
+          _id
+          title
         }
       }
     }

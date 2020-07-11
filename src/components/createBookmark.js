@@ -5,7 +5,7 @@ import { useMutation } from "@apollo/react-hooks"
 import { getUser } from "../services/auth"
 import {
   GET_COURSES_WITH_BOOKMARKS,
-  GET_USER_BY_ID,
+  GET_DEVELOPER_BY_ID,
   GET_USERS_WITH_BOOKMARKS,
 } from "../apollo/queries"
 
@@ -57,7 +57,7 @@ const CreateBookmark = ({
       },
       refetchQueries: [
         {
-          query: GET_USER_BY_ID,
+          query: GET_DEVELOPER_BY_ID,
           variables: {
             id: getUser()._id,
           },

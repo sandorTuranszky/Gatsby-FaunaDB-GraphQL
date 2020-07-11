@@ -6,7 +6,7 @@ import UpdateBookmark from "../components/updateBookmark"
 import DeleteBookmark from "../components/deleteBookmark"
 
 // The Query is used by Apollo Client.
-import { GET_USER_BY_ID } from "../apollo/queries"
+import { GET_DEVELOPER_BY_ID } from "../apollo/queries"
 
 export const BookmarksList = ({ loading, error, bookmarks }) => {
   const userID = getUser()._id
@@ -60,7 +60,7 @@ export const BookmarksList = ({ loading, error, bookmarks }) => {
 
 const Bookmarks = () => {
   let bookmarks = []
-  const { loading, error, data = {} } = useQuery(GET_USER_BY_ID, {
+  const { loading, error, data = {} } = useQuery(GET_DEVELOPER_BY_ID, {
     variables: { id: getUser()._id },
   })
 

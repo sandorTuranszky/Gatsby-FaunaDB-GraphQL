@@ -1,6 +1,7 @@
 type Course {
   title: String!
   description: String
+  visible: Boolean
   author: User!
   bookmarks: [Bookmark!] @relation
 }
