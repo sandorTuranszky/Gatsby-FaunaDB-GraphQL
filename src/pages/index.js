@@ -5,7 +5,7 @@ import { useQuery } from "@apollo/react-hooks"
 import { getUser } from "../services/auth"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
-import { isLoggedIn } from "../services/auth"
+import { isLoggedIn, isDeveloper } from "../services/auth"
 import BookmarkManager from "../components/bookmarkManager"
 
 // The Query is used by Apollo Client.
@@ -71,7 +71,7 @@ const IndexPage = ({ data: { FaunaDB } }) => {
   return (
     <Layout>
       <SEO title="Home" />
-      {isLoggedIn() ? (
+      {isLoggedIn() && isDeveloper() ? (
         <CoursesListWithBookmarks courses={courses} />
       ) : (
         <CoursesList courses={courses} />
