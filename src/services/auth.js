@@ -46,7 +46,7 @@ export const isLoggedIn = () => {
 export const privateRoutes = {
   default: [loginRoute],
   DEVELOPER: ["/app/bookmarks"],
-  AUTHOR: ["/app/courses", "/app/courses/:id/update"],
+  AUTHOR: ["/app/courses", "/app/courses/create", "/app/courses/:id/update"],
 }
 
 export const getPrivateRoute = () => {

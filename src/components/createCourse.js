@@ -1,39 +1,63 @@
 import React from "react"
 import { navigate } from "gatsby"
-import { useQuery, useMutation } from "@apollo/react-hooks"
+import { useMutation } from "@apollo/react-hooks"
 import gql from "graphql-tag"
 
-// The Query is used by Apollo Client.
-import { GET_COURSE_BY_ID } from "../apollo/queries"
+import { getUser } from "../services/auth"
+import { GET_AUTHOR_BY_ID } from "../apollo/queries"
 
-const UPDATE_COURSE = gql`
-  mutation updateCourse($id: ID!, $title: String!, $description: String!) {
-    updateCourse(
-      id: $id
-      data: { title: $title, description: $description, visible: false }
+const CREATE_COURSE = gql`
+  mutation createCourse($title: String!, $description: String!, $userID: ID!) {
+    createCourse(
+      data: {
+        title: $title
+        description: $description
+        visible: false
+        author: { connect: $userID }
+      }
     ) {
       _id
       title
-      description
       visible
+      description
     }
   }
 `
 
-export const UpdateForm = ({ course }) => {
+export const CreateForm = () => {
   let titleInput
   let descriptionTextarea
 
-  const [updateCourse, { loading, error, data = {} }] = useMutation(
-    UPDATE_COURSE
+  const [createCourse, { client, loading, error, data = {} }] = useMutation(
+    CREATE_COURSE,
+    {
+      update(cache, { data: { createCourse } }) {
+        const cacheData = client.readQuery({
+          query: GET_AUTHOR_BY_ID,
+          variables: {
+            id: getUser()._id,
+          },
+        })
+
+        cacheData.findUserByID.courses.data.push(createCourse)
+
+        client.writeQuery({
+          query: GET_AUTHOR_BY_ID,
+          variables: {
+            id: getUser()._id,
+          },
+          data: { ...cacheData },
+        })
+      },
+    }
   )
 
-  if (data.updateCourse) navigate("/app/courses")
+  if (data.createCourse) navigate("/app/courses")
 
   return (
     <>
       <div style={{ marginBottom: `.5rem`, color: `gray`, fontWeight: `bold` }}>
-        Update course:
+        Create new course
       </div>
       {error && (
         <div
@@ -49,11 +73,11 @@ export const UpdateForm = ({ course }) => {
         onSubmit={event => {
           event.preventDefault()
 
-          updateCourse({
+          createCourse({
             variables: {
-              id: course._id,
               title: titleInput.value,
               description: descriptionTextarea.value,
+              userID: getUser()._id,
             },
           })
         }}
@@ -71,7 +95,6 @@ export const UpdateForm = ({ course }) => {
             name="title"
             aria-label="Title"
             size="51"
-            defaultValue={course.title}
             ref={node => {
               titleInput = node
             }}
@@ -91,7 +114,6 @@ export const UpdateForm = ({ course }) => {
             aria-label="Description"
             rows="4"
             cols="50"
-            defaultValue={course.description}
             ref={node => {
               descriptionTextarea = node
             }}
@@ -99,8 +121,8 @@ export const UpdateForm = ({ course }) => {
         </div>
         <input
           type="submit"
-          aria-label="Update"
-          value="Update"
+          aria-label="Create"
+          value="Create"
           disabled={loading}
         />{" "}
         {loading && <span>Loading...</span>}
@@ -109,36 +131,8 @@ export const UpdateForm = ({ course }) => {
   )
 }
 
-const UpdateCourse = ({ id }) => {
-  let course
-  const { loading, error, data = {} } = useQuery(GET_COURSE_BY_ID, {
-    variables: { id },
-  })
-
-  if (data && data.findCourseByID) {
-    course = data.findCourseByID
-    if (!course.description) course.description = ""
-  }
-
-  return (
-    <>
-      {loading && (
-        <div style={{ marginLeft: `1rem`, color: `gray` }}>Loading...</div>
-      )}
-
-      {error && (
-        <div style={{ marginLeft: `1rem`, color: `gray` }}>{error.message}</div>
-      )}
-
-      {!loading && !course && (
-        <div style={{ color: `gray` }}>
-          404: can't find the course with the given id
-        </div>
-      )}
-
-      {!loading && course && <UpdateForm course={course} />}
-    </>
-  )
+const CreateCourse = () => {
+  return <CreateForm />
 }
 
-export default UpdateCourse
+export default CreateCourse

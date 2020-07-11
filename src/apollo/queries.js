@@ -28,6 +28,7 @@ export const GET_AUTHOR_BY_ID = gql`
         data {
           _id
           title
+          visible
         }
       }
     }

@@ -24,6 +24,15 @@ export const CourseList = ({ loading, error, courses }) => {
 
       {!loading && courses.length > 0 && (
         <>
+          <Link
+            to={`/app/courses/create`}
+            style={{
+              marginLeft: `.5rem`,
+              fontWeight: `bold`,
+            }}
+          >
+            Create new course
+          </Link>
           <div style={{ margin: `.5rem`, color: `gray`, fontWeight: `bold` }}>
             Courses:
           </div>
@@ -32,6 +41,11 @@ export const CourseList = ({ loading, error, courses }) => {
               return (
                 <li key={course._id}>
                   {course.title}{" "}
+                  {!course.visible && (
+                    <span style={{ marginLeft: `.5rem`, color: `orange` }}>
+                      (In review)
+                    </span>
+                  )}
                   <Link
                     to={`/app/courses/${course._id}/update`}
                     style={{
