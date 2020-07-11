@@ -83,3 +83,13 @@ export const GET_COURSES_WITH_BOOKMARKS = gql`
     }
   }
 `
+
+export const GET_COURSE_BY_ID = gql`
+  query findCourseByID($id: ID!) {
+    findCourseByID(id: $id) {
+      _id
+      title
+      description
+    }
+  }
+`

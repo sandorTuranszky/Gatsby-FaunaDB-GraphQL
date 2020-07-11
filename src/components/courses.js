@@ -33,7 +33,7 @@ export const CourseList = ({ loading, error, courses }) => {
                 <li key={course._id}>
                   {course.title}{" "}
                   <Link
-                    to={`/courses/${course._id}/update`}
+                    to={`/app/courses/${course._id}/update`}
                     style={{
                       marginLeft: `1rem`,
                     }}

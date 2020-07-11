@@ -4,6 +4,7 @@ import Layout from "../components/layout"
 import PrivateRoute from "../components/privateRoute"
 import Bookmarks from "../components/bookmarks"
 import Courses from "../components/courses"
+import UpdateCourse from "../components/updateCourse"
 import Login from "../components/login"
 
 const App = () => (
@@ -11,6 +12,7 @@ const App = () => (
     <Router>
       <PrivateRoute path="/app/bookmarks" component={Bookmarks} />
       <PrivateRoute path="/app/courses" component={Courses} />
+      <PrivateRoute path="/app/courses/:id/update" component={UpdateCourse} />
       <Login path="/app/login" />
     </Router>
   </Layout>
