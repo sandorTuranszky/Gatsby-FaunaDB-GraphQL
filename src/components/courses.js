@@ -24,15 +24,6 @@ export const CourseList = ({ loading, error, courses }) => {
 
       {!loading && courses.length > 0 && (
         <>
-          <Link
-            to={`/app/courses/create`}
-            style={{
-              marginLeft: `.5rem`,
-              fontWeight: `bold`,
-            }}
-          >
-            Create new course
-          </Link>
           <div style={{ margin: `.5rem`, color: `gray`, fontWeight: `bold` }}>
             Courses:
           </div>
@@ -74,6 +65,15 @@ const Courses = () => {
 
   return (
     <>
+      <Link
+        to={`/app/courses/create`}
+        style={{
+          marginLeft: `.5rem`,
+          fontWeight: `bold`,
+        }}
+      >
+        Create new course
+      </Link>
       <CourseList loading={loading} error={error} courses={courses} />
     </>
   )

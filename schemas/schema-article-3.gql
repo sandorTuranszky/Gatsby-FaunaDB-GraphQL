@@ -1,7 +1,7 @@
 type Course {
   title: String!
   description: String
-  visible: Boolean
+  visible: Boolean!
   author: User!
   bookmarks: [Bookmark!] @relation
 }
@@ -42,10 +42,29 @@ type AuthPayload {
   user: User!
 }
 
+type CourseUpdates @embedded {
+  title: String
+  description: String
+  visible: Boolean
+}
+
+type HistoryUpdate @embedded {
+  ts: Long!
+  action: String!
+  data: CourseUpdates
+}
+
+type HistoryPage @embedded {
+  data: [HistoryUpdate]
+}
+
 type Query {
   allCourses: [Course!]
   allBookmarks: [Bookmark!]
   allUsers(role: Role): [User!]
+  allCoursesInReview(visible: Boolean = false): [Course!]
+  courseUpdateHistory(id: ID!): HistoryPage
+    @resolver(name: "course_update_history")
 }
 
 type Mutation {
@@ -57,4 +76,5 @@ type Mutation {
 enum Role {
   AUTHOR
   DEVELOPER
+  ADMIN
 }
