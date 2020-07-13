@@ -8,9 +8,11 @@ const DEVELOPER = "DEVELOPER"
 
 const AUTHOR = "AUTHOR"
 
+const ADMIN = "ADMIN"
+
 // This will match path, e.g. /269952036829659653/update and transform into /:id/update
 const transformDynamicRoute = path =>
-  path.replace(/(\/[0-9]+)(\/update$)/i, "/:id$2")
+  path.replace(/(\/[0-9]+)(\/update$|\/review$)/i, "/:id$2")
 
 export const loginRoute = "/app/login"
 
@@ -38,6 +40,11 @@ export const isAuthor = () => {
   return user.role === AUTHOR
 }
 
+export const isAdmin = () => {
+  const user = getUser()
+  return user.role === ADMIN
+}
+
 export const isLoggedIn = () => {
   const user = getUser()
   return !!user.email
@@ -47,6 +54,7 @@ export const privateRoutes = {
   default: [loginRoute],
   DEVELOPER: ["/app/bookmarks"],
   AUTHOR: ["/app/courses", "/app/courses/create", "/app/courses/:id/update"],
+  ADMIN: ["/app/courses/review", "/app/courses/:id/review"],
 }
 
 export const getPrivateRoute = () => {

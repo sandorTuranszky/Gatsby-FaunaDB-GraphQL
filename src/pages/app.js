@@ -6,6 +6,8 @@ import Bookmarks from "../components/bookmarks"
 import Courses from "../components/courses"
 import CreateCourse from "../components/createCourse"
 import UpdateCourse from "../components/updateCourse"
+import CoursesInReview from "../components/coursesInReview"
+import CoursesInReviewDetails from "../components/coursesInReviewDetails"
 import Login from "../components/login"
 
 const App = () => (
@@ -15,6 +17,11 @@ const App = () => (
       <PrivateRoute path="/app/courses" component={Courses} />
       <PrivateRoute path="/app/courses/create" component={CreateCourse} />
       <PrivateRoute path="/app/courses/:id/update" component={UpdateCourse} />
+      <PrivateRoute path="/app/courses/review" component={CoursesInReview} />
+      <PrivateRoute
+        path="/app/courses/:id/review"
+        component={CoursesInReviewDetails}
+      />
       <Login path="/app/login" />
     </Router>
   </Layout>

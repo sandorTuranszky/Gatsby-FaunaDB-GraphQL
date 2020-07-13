@@ -94,3 +94,32 @@ export const GET_COURSE_BY_ID = gql`
     }
   }
 `
+
+export const GET_COURSES_IN_REVIEW = gql`
+  {
+    allCoursesInReview(_size: 50) {
+      data {
+        _id
+        title
+        description
+        visible
+      }
+    }
+  }
+`
+
+export const GET_COURSE_UPDATE_HISTORY_BY_ID = gql`
+  query courseUpdateHistory($id: ID!) {
+    courseUpdateHistory(id: $id) {
+      data {
+        ts
+        action
+        data {
+          title
+          description
+          visible
+        }
+      }
+    }
+  }
+`

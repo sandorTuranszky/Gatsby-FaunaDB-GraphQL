@@ -6,6 +6,7 @@ import {
   isLoggedIn,
   getPrivateRoute,
   isDeveloper,
+  isAuthor,
 } from "../services/auth"
 import Logout from "../components/logout"
 
@@ -64,8 +65,10 @@ const Header = ({ siteTitle }) => {
                 >
                   {isDeveloper() ? (
                     <span>Bookmarks</span>
-                  ) : (
+                  ) : isAuthor() ? (
                     <span>Courses</span>
+                  ) : (
+                    <span>Courses for review</span>
                   )}
                 </Link>
                 <Logout />
