@@ -76,5 +76,5 @@ type Mutation {
 enum Role {
   AUTHOR
   DEVELOPER
-  ADMIN
+  MANAGER
 }
